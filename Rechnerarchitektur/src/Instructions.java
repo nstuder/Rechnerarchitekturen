@@ -10,12 +10,31 @@ public class Instructions {
 	}
 	
 	
-	void addWF(int address) {
+	void addLW(int address) {
 		
 	}
 	
-	void andWF(){
+	void andLW(){
 		
 	}
 	
+	void iorLW(){
+		
+	}
+	
+	void subLW(){
+		
+	}
+	
+	void goTo(){
+		
+	}
+	
+	void movLW(int value){
+		this.memory.writeWREG(value);
+	}
+	
+	void xorLW(){
+		
+	}
 }
