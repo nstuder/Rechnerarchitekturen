@@ -26,42 +26,46 @@ public class Microcontroller {
 			
 		break;
 		case 0x0300: //DECF
+		
+		break;
+		case 0x0B00: //DECFSZ
+		
+		break;
+		case 0x0A00: //INCF
 			
 		break;
-		case 0x0500: //ANDWF
+		case 0x0F00: //INCFSZ
 			
 		break;
-		case 0x0500: //ANDWF
+		case 0x0400: //IORWF
 			
 		break;
-		case 0x0500: //ANDWF
+		case 0x0800: //MOVF
 			
 		break;
-		case 0x0500: //ANDWF
+		case 0x0000: //MOVWF //NOP //CLRWDT //RETFILE //RETURN //SLEEP
 			
 		break;
-		case 0x0500: //ANDWF
+		case 0x0D00: //RLF
 			
 		break;
-		case 0x0500: //ANDWF
+		case 0x0C00: //RRF
 			
 		break;
-		case 0x0500: //ANDWF
+		case 0x0200: //SUBWF
 			
 		break;
-		case 0x0500: //ANDWF
+		case 0x0E00: //SWAPF
 			
 		break;
-		case 0x0500: //ANDWF
+		case 0x0600: //XORWF
+			
+		/*	
+		break;
+		case 0x1500: //BSF
 			
 		break;
-		case 0x0500: //ANDWF
-			
-		break;
-		case 0x0500: //ANDWF
-			
-		break;
-		case 0x0500: //ANDWF
+		case 0x1600: //ANDWF
 			
 		break;
 		case 0x0500: //ANDWF
@@ -73,8 +77,7 @@ public class Microcontroller {
 		case 0x0500: //ANDWF
 			
 		break;
-		
-		
+		*/
 			default:
 				
 			break;
