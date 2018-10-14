@@ -1,14 +1,23 @@
-
+/**
+ * Class for the main management of the micro controller
+ * @author FlorianGrunwald, NiklasStuder
+ *	
+ */
 public class Microcontroller {
 		
 	private Memory memory;
 	
 	int programCounter;
-	
+	/**
+	 * Initialize Program Counter
+	 */
 	Microcontroller(){
 		this.programCounter = 0;
 	}
 	
+	/**
+	 * execute the next Instruction and increase the Program Counter
+	 */
 	void nextOperation(){
 		int instruction = memory.readProgramMeomory(this.programCounter);
 		
