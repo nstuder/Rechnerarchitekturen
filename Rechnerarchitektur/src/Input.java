@@ -18,8 +18,8 @@ public class Input {
 	 * @param filePath path for the assembly file
 	 * @param memory for the write to the Program memory
 	 */
-	Input(String filePath, Memory memory){
-		this.file = new File(filePath);
+	Input(File file, Memory memory){
+		this.file = file;
 		this.memory = memory;
 		
 		try {

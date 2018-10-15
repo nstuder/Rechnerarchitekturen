@@ -1,3 +1,5 @@
+import java.io.File;
+
 /**
  * Class for the main management of the micro controller
  * @author FlorianGrunwald, NiklasStuder
@@ -6,13 +8,21 @@
 public class Microcontroller {
 		
 	private Memory memory;
-	
+	private Input input;
+	private Instructions intsructions;
 	int programCounter;
+	
 	/**
 	 * Initialize Program Counter
 	 */
-	Microcontroller(){
+	Microcontroller(File ressource){
+		this.memory = new Memory();
+		this.input = new Input(ressource, this.memory);
+		this.input.getData();
+		this.intsructions = new Instructions(this.memory);
 		this.programCounter = 0;
+		
+		memory.showProgrammMemory();
 	}
 	
 	/**
