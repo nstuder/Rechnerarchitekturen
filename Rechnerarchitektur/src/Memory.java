@@ -92,4 +92,23 @@ public class Memory {
 	public void writeWREG(int value) {
 		this.w_Reg = value;
 	}
+	
+	/**
+	 * write to main Memory
+	 * @param address
+	 * @param value
+	 */
+	public void writeRAM(int address,int value) {
+		this.mainMemory[address] = value;
+	}
+	
+	
+	/**
+	 * read from mainMemory
+	 * @param address
+	 * @return
+	 */
+	public int readRAM(int address) {
+		return this.mainMemory[address];
+	}
 }

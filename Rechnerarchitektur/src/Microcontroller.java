@@ -79,30 +79,34 @@ public class Microcontroller {
 		break;
 		case 0x0600: //XORWF
 			
-		/*	
-		break;
-		case 0x1500: //BSF
 			
 		break;
-		case 0x1600: //ANDWF
-			
+		case 0x3E00: //ADDLW
+			this.intsructions.addLW((instruction & 0x00FF));
 		break;
-		case 0x0500: //ANDWF
-			
+		case 0x3900: //ANDLW
+			this.intsructions.andLW((instruction & 0x00FF));
 		break;
-		case 0x0500: //ANDWF
-			
+		case 0x3800: //IORLW
+			this.intsructions.iorLW((instruction & 0x00FF));
+		break;
+		case 0x3000: //MOVLW
+			this.intsructions.movLW((instruction & 0x00FF));
 		break;		
-		case 0x0500: //ANDWF
-			
+		case 0x3C00: //SUBLW
+			this.intsructions.subLW((instruction & 0x00FF));
 		break;
-		*/
+		case 0x3A00: //XORLW
+			this.intsructions.xorLW((instruction & 0x00FF));
+		break;
+		
 			default:
-				
+				System.out.println("Instruction not found");
 			break;
 		}
 		
 		this.programCounter++;
+		System.out.println("W_REGISTER = " + this.memory.readWREG());
 	}
 	
 	

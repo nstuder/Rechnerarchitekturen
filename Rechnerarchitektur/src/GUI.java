@@ -1,5 +1,4 @@
 import java.io.File;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -33,21 +32,25 @@ public class GUI extends Application {
 		});
 		
 		Button start = new Button("Start");
-		start.setDisable(true);
 		Button stop = new Button("Stop");
-		stop.setDisable(true);
 		Button step = new Button("Step");
-		step.setDisable(true);
+		step.setOnAction(event -> this.nextStep());
 		
 		menuBar.getChildren().addAll(file,start,step,stop);
 		mainLayout.setTop(menuBar);
 		primaryStage.setTitle("MicroController PIC16F8X"); 
-		primaryStage.setScene(new Scene(mainLayout, 500,300));
+		primaryStage.setScene(new Scene(mainLayout,500,300));
 		primaryStage.show();
 	}
 	
 	public static void main(String[] args) { 
+
 		launch(args); 
+	}
+	
+	public void nextStep() {
+		PIC.nextOperation();
+		
 	}
 
 }
