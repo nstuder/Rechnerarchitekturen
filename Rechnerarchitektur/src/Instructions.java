@@ -4,8 +4,8 @@
  *
  */
 public class Instructions {
-	private static final int PCL = 2;
-	private static final int STATUS = 3;
+	public static final int PCL = 2;
+	public static final int STATUS = 3;
 	Memory memory;
 	/**
 	 * initialize memory
@@ -56,19 +56,13 @@ public class Instructions {
 		if (temp < 0) {
 			temp ^= 0xFFFFFFFF;
 			temp++;
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x01);
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x02);
 		}
 		if(temp > 255) this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x01);
 		if(temp > 127) this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x02);
 		if(temp == 0) this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
 		this.memory.writeWREG(temp & 0xFF);
-	}
-	
-	/**
-	 * goto an address
-	 * @param address to jump
-	 */
-	void goTo(int address){
-		
 	}
 	
 	/**

@@ -30,6 +30,7 @@ public class Microcontroller {
 	 */
 	void nextOperation(){
 		int instruction = memory.readProgramMeomory(this.programCounter);
+		this.programCounter++;
 		
 		switch((instruction & 0x3F00)) {
 		case 0x0700: //ADDWF
@@ -95,19 +96,49 @@ public class Microcontroller {
 		break;		
 		case 0x3C00: //SUBLW
 			this.intsructions.subLW((instruction & 0x00FF));
-		break;
+		break; 
 		case 0x3A00: //XORLW
 			this.intsructions.xorLW((instruction & 0x00FF));
+		break;
+		case 0x2800: //GOTO
+			this.programCounter = (instruction & 0x07FF);
 		break;
 		
 			default:
 				System.out.println("Instruction not found");
 			break;
 		}
-		
-		this.programCounter++;
+		System.out.println("PC = " + (this.programCounter-1));
+		System.out.println("STATUS_REGISTER = " + this.memory.readRAM(this.intsructions.STATUS));
 		System.out.println("W_REGISTER = " + this.memory.readWREG());
 	}
 	
+	public int getStatus(int regNumber) {
+		if(regNumber != 0) {
+			return this.memory.readRAM(regNumber);
+		}else {
+			return this.memory.readWREG();
+		}
+	}
 	
+	public void reset() {
+		this.memory.writeRAM(0, 0);
+		this.memory.writeRAM(1, 0);
+		this.memory.writeRAM(2, 0);
+		this.memory.writeRAM(3, 0x18);
+		for(int i = 4;i < 0x81;i++) this.memory.writeRAM(i, 0);
+		this.memory.writeRAM(0x81, 0xFF);
+		this.memory.writeRAM(0x82, 0);
+		this.memory.writeRAM(0x83, 0x18);
+		this.memory.writeRAM(0x84, 0);
+		this.memory.writeRAM(0x85, 0x1F);
+		this.memory.writeRAM(0x86, 0xFF);
+		for(int i = 0x87;i < 0xD0;i++) this.memory.writeRAM(i, 0);
+		this.memory.writeWREG(0);		
+	}
+	
+	public void resetAll() {
+		this.reset();
+		for(int i = 4;i < 512;i++) this.memory.writeProgrammMemory(0, i);
+	}
 }
