@@ -109,8 +109,8 @@ public class Microcontroller {
 			break;
 		}
 		System.out.println("PC = " + (this.programCounter-1));
-		System.out.println("STATUS_REGISTER = " + this.memory.readRAM(this.intsructions.STATUS));
-		System.out.println("W_REGISTER = " + this.memory.readWREG());
+		System.out.println("STATUS_REGISTER = " + Integer.toBinaryString(this.memory.readRAM(this.intsructions.STATUS)));
+		System.out.println("W_REGISTER 0x= " + Integer.toHexString(this.memory.readWREG()));
 	}
 	
 	public int getStatus(int regNumber) {

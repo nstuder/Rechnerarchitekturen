@@ -20,10 +20,24 @@ public class Instructions {
 	 * @param value
 	 */
 	void addLW(int value) {
-		int temp = this.memory.readWREG() + value;
-		if(temp > 255) this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x01);
-		if(temp > 127) this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x02);
-		if(temp == 0) this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+		int temp = this.memory.readWREG();
+		temp += value;
+		if(temp > 255) { //set Carry Bit 
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x01);
+		}else{
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFE);
+		}
+		// set DC
+		if(15 < ((this.memory.readWREG() & 0x0F)+(value & 0x0F))) { 
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x02);
+		}else{
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFD);
+		}
+		if(temp == 0) { //set Zero Bit
+				this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+			}else{
+				this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFB);
+		}
 		this.memory.writeWREG(temp & 0xFF);
 	}
 	
@@ -33,7 +47,11 @@ public class Instructions {
 	 */
 	void andLW(int value){
 		int temp = this.memory.readWREG() & value;
-		if(temp == 0) this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+		if(temp == 0) { 
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+		}else{
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFB);
+		}
 		this.memory.writeWREG(temp & 0xFF);
 	}
 	
@@ -43,7 +61,11 @@ public class Instructions {
 	 */	
 	void iorLW(int value){
 		int temp = this.memory.readWREG() | value;
-		if(temp == 0) this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+		if(temp == 0) { 
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+		}else{
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFB);
+		}
 		this.memory.writeWREG(temp & 0xFF);
 	}
 	
@@ -52,17 +74,8 @@ public class Instructions {
 	 * @param value
 	 */
 	void subLW(int value){
-		int temp = this.memory.readWREG() - value;
-		if (temp < 0) {
-			temp ^= 0xFFFFFFFF;
-			temp++;
-			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x01);
-			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x02);
-		}
-		if(temp > 255) this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x01);
-		if(temp > 127) this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x02);
-		if(temp == 0) this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
-		this.memory.writeWREG(temp & 0xFF);
+		this.memory.writeWREG(((this.memory.readWREG() ^ 0xFF)+1));
+		this.addLW(value);
 	}
 	
 	/**
@@ -79,7 +92,13 @@ public class Instructions {
 	 */
 	void xorLW(int value){
 		int temp = this.memory.readWREG() ^ value;
-		if(temp == 0) this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+		
+		if(temp == 0) { 
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+		}else{
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFB);
+		}
+		
 		this.memory.writeWREG(temp & 0xFF);
 	}
 }
