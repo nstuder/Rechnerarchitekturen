@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Class for the main management of the micro controller
@@ -119,6 +120,10 @@ public class Microcontroller {
 		}else {
 			return this.memory.readWREG();
 		}
+	}
+	
+	public ArrayList<String> getText() {
+		return this.input.getFileString();
 	}
 	
 	public void reset() {

@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 /**
  * Class for read the Instructions of the File and decode it for the Memory
  * @author FlorianGrunwald, NiklasStuder
@@ -10,9 +11,10 @@ import java.io.IOException;
  */
 public class Input {
 
-	BufferedReader input;
-	File file;
-	Memory memory;
+	private BufferedReader input;
+	private File file;
+	private Memory memory;
+	private ArrayList<String> fileString;
 	/**
 	 * Main Constructor initialize memory and file path and the Input stream to read from the File
 	 * @param filePath path for the assembly file
@@ -39,10 +41,13 @@ public class Input {
 		String subString = " ";
 		String subStringCode = " ";
 		int count = 0;
-		
+		int count1 = 0;
 		try {
 			currentLine = this.input.readLine();
+			
 			while(currentLine != null){
+				//this.fileString.add(currentLine);
+				
 				subString = currentLine.substring(0, 1);
 				if(subString.compareTo("0") == 0) {
 					subStringCode = currentLine.substring(5, 9);
@@ -50,6 +55,7 @@ public class Input {
 					count++;
 				}		
 				currentLine = this.input.readLine();
+				count1++;
 			}
 			input.close();
 		} catch (IOException e) {
@@ -58,4 +64,7 @@ public class Input {
 		}
 	}
 	
+	public ArrayList<String> getFileString() {
+		return this.fileString;
+	}
 }
