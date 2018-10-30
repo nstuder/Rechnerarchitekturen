@@ -22,8 +22,9 @@ public class Microcontroller {
 		this.input.getData();
 		this.intsructions = new Instructions(this.memory);
 		this.programCounter = 0;
+		this.reset();
 		
-		memory.showProgrammMemory();
+		//memory.showProgrammMemory();
 	}
 	
 	/**
@@ -139,7 +140,8 @@ public class Microcontroller {
 		this.memory.writeRAM(0x85, 0x1F);
 		this.memory.writeRAM(0x86, 0xFF);
 		for(int i = 0x87;i < 0xD0;i++) this.memory.writeRAM(i, 0);
-		this.memory.writeWREG(0);		
+		this.memory.writeWREG(0);
+		this.programCounter = 0;
 	}
 	
 	public void resetAll() {

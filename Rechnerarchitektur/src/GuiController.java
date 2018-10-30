@@ -1,3 +1,4 @@
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -8,9 +9,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class GuiController {
 
+	//Microcontroller 
+	private Microcontroller PIC;
+	
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
@@ -96,7 +102,39 @@ public class GuiController {
 
     @FXML
     void open(ActionEvent event) {
-
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Resource File");
+		fileChooser.setTitle("File");
+		File result = fileChooser.showOpenDialog(new Stage());
+		if (result != null) {
+		PIC = new Microcontroller(result);
+		//first.setText(this.PIC.getText().get(0));
+		for(int i = 0;i < 500;i++) {
+			//Lines = new TableColumn[];
+		}
+		// enable Buttons
+		this.step.setDisable(false);
+		this.start.setDisable(false);
+		this.stop.setDisable(false);
+		this.reset.setDisable(false);
+		this.A0.setDisable(false);
+		this.A1.setDisable(false);
+		this.A2.setDisable(false);
+		this.A3.setDisable(false);
+		this.A4.setDisable(false);
+		this.A5.setDisable(false);
+		this.A6.setDisable(false);
+		this.A7.setDisable(false);
+		this.B0.setDisable(false);
+		this.B1.setDisable(false);
+		this.B2.setDisable(false);
+		this.B3.setDisable(false);
+		this.B4.setDisable(false);
+		
+		System.out.println(this.PIC.getText());
+		} else {
+		System.out.println("File not Found");
+		}
     }
 
     @FXML
@@ -106,7 +144,8 @@ public class GuiController {
 
     @FXML
     void reset(ActionEvent event) {
-
+    	PIC.reset();
+    	this.wRegister.setText("0x00");
     }
 
     @FXML
@@ -126,7 +165,9 @@ public class GuiController {
 
     @FXML
     void step(ActionEvent event) {
-
+    	PIC.nextOperation();
+    	this.wRegister.setText("0x" + Integer.toHexString(PIC.getStatus(0)));
+    	
     }
 
     @FXML

@@ -63,8 +63,7 @@ public class GUI extends Application {
 	}
 	
 	public void nextStep() {
-		PIC.nextOperation();
-		
+		PIC.nextOperation();	
 	}
 
 }
