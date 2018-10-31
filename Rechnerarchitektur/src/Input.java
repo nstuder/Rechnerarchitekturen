@@ -4,6 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 /**
  * Class for read the Instructions of the File and decode it for the Memory
  * @author FlorianGrunwald, NiklasStuder
@@ -14,7 +17,7 @@ public class Input {
 	private BufferedReader input;
 	private File file;
 	private Memory memory;
-	private ArrayList<String> fileString;
+	private ObservableList<Line> fileString = FXCollections.observableArrayList();
 	/**
 	 * Main Constructor initialize memory and file path and the Input stream to read from the File
 	 * @param filePath path for the assembly file
@@ -23,7 +26,6 @@ public class Input {
 	Input(File file, Memory memory){
 		this.file = file;
 		this.memory = memory;
-		
 		try {
 			this.input = new BufferedReader(new FileReader(file));
 		} catch (FileNotFoundException e) {
@@ -52,8 +54,11 @@ public class Input {
 				if(subString.compareTo("0") == 0) {
 					subStringCode = currentLine.substring(5, 9);
 					this.memory.writeProgrammMemory(Integer.decode(("0x"+subStringCode)),count);
+					this.fileString.add(new Line(count1,currentLine,count));
 					count++;
-				}		
+				}else {		
+					this.fileString.add(new Line(count1,"        " + currentLine,-1));
+				}
 				currentLine = this.input.readLine();
 				count1++;
 			}
@@ -64,7 +69,7 @@ public class Input {
 		}
 	}
 	
-	public ArrayList<String> getFileString() {
+	public ObservableList<Line> getFileString() {
 		return this.fileString;
 	}
 }

@@ -1,6 +1,8 @@
 import java.io.File;
 import java.util.ArrayList;
 
+import javafx.collections.ObservableList;
+
 /**
  * Class for the main management of the micro controller
  * @author FlorianGrunwald, NiklasStuder
@@ -11,7 +13,6 @@ public class Microcontroller {
 	private Memory memory;
 	private Input input;
 	private Instructions intsructions;
-	int programCounter;
 	
 	/**
 	 * Initialize Program Counter
@@ -21,7 +22,6 @@ public class Microcontroller {
 		this.input = new Input(ressource, this.memory);
 		this.input.getData();
 		this.intsructions = new Instructions(this.memory);
-		this.programCounter = 0;
 		this.reset();
 		
 		//memory.showProgrammMemory();
@@ -31,8 +31,8 @@ public class Microcontroller {
 	 * execute the next Instruction and increase the Program Counter
 	 */
 	void nextOperation(){
-		int instruction = memory.readProgramMeomory(this.programCounter);
-		this.programCounter++;
+		int instruction = memory.readProgramMeomory(this.memory.readRAM(2));
+		this.memory.writeRAM(2, this.memory.readRAM(2)+1);
 		
 		switch((instruction & 0x3F00)) {
 		case 0x0700: //ADDWF
@@ -103,16 +103,17 @@ public class Microcontroller {
 			this.intsructions.xorLW((instruction & 0x00FF));
 		break;
 		case 0x2800: //GOTO
-			this.programCounter = (instruction & 0x07FF);
+			this.memory.writeRAM(2,(instruction & 0x07FF));
 		break;
 		
 			default:
 				System.out.println("Instruction not found");
 			break;
 		}
-		System.out.println("PC = " + (this.programCounter-1));
-		System.out.println("STATUS_REGISTER = " + Integer.toBinaryString(this.memory.readRAM(this.intsructions.STATUS)));
+		/*System.out.println("PC = " + (this.programCounter-1));
+		System.out.println("STATUS_REGISTER = " + Integer.toBinaryString(this.memory.readRAM(Instructions.STATUS)));
 		System.out.println("W_REGISTER 0x= " + Integer.toHexString(this.memory.readWREG()));
+		*/
 	}
 	
 	public int getStatus(int regNumber) {
@@ -123,7 +124,7 @@ public class Microcontroller {
 		}
 	}
 	
-	public ArrayList<String> getText() {
+	public ObservableList<Line> getText() {
 		return this.input.getFileString();
 	}
 	
@@ -141,7 +142,7 @@ public class Microcontroller {
 		this.memory.writeRAM(0x86, 0xFF);
 		for(int i = 0x87;i < 0xD0;i++) this.memory.writeRAM(i, 0);
 		this.memory.writeWREG(0);
-		this.programCounter = 0;
+		this.memory.writeRAM(2,0);
 	}
 	
 	public void resetAll() {
