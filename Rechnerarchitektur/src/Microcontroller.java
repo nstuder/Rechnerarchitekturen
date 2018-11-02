@@ -106,6 +106,10 @@ public class Microcontroller {
 			this.memory.writeRAM(2,(instruction & 0x07FF));
 		break;
 		
+		case 0x3400: //retLW
+			this.intsructions.returnLw(instruction & 0x00FF);
+		break;
+		
 			default:
 				System.out.println("Instruction not found");
 			break;

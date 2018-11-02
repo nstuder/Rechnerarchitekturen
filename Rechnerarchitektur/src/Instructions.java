@@ -101,4 +101,17 @@ public class Instructions {
 		
 		this.memory.writeWREG(temp & 0xFF);
 	}
+	
+	void call(int address) {
+		
+	}
+	
+	void ret() {
+		
+	}
+	
+	void returnLw(int value) {
+		
+	}
+	
 }
