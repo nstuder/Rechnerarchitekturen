@@ -191,7 +191,7 @@ public class GuiController {
 		this.codeData.addAll(PIC.getText());
 		//this.codeData = PIC.getText();
 		this.codeTable.refresh();
-		
+		this.reset(null);
 		//System.out.println(this.PIC.getText());
 		} else {
 		System.out.println("File not Found");
@@ -207,6 +207,9 @@ public class GuiController {
     void reset(ActionEvent event) {
     	PIC.reset();
     	this.wRegister.setText("0x00");
+    	for(int i = 0 ;i < codeData.size();i++){
+    		if (codeData.get(i).getProgamCount() == this.PIC.getStatus(2)) codeTable.getSelectionModel().select(i);
+    	}
     }
 
     @FXML
@@ -228,10 +231,13 @@ public class GuiController {
     void step(ActionEvent event) {
     	PIC.nextOperation();
     	this.wRegister.setText("0x" + Integer.toHexString(PIC.getStatus(0)));
-    	//data.add(new Register("STATUS",PIC.getStatus(3)));
     	regData.get(2).setNewValue(PIC.getStatus(3));
     	regData.get(1).setNewValue(PIC.getStatus(2));
     	this.regTable.refresh();
+    	//codeTable.getSelectionModel().select(5);
+    	for(int i = 0 ;i < codeData.size();i++){
+    		if (codeData.get(i).getProgamCount() == this.PIC.getStatus(2)) codeTable.getSelectionModel().select(i);
+    	}
     }
 
     @FXML

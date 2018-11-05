@@ -1,6 +1,4 @@
-import java.io.File;
-import java.util.ArrayList;
-
+import java.io.File; 
 import javafx.collections.ObservableList;
 
 /**
@@ -23,8 +21,6 @@ public class Microcontroller {
 		this.input.getData();
 		this.intsructions = new Instructions(this.memory);
 		this.reset();
-		
-		//memory.showProgrammMemory();
 	}
 	
 	/**
@@ -34,90 +30,142 @@ public class Microcontroller {
 		int instruction = memory.readProgramMeomory(this.memory.readRAM(2));
 		this.memory.writeRAM(2, this.memory.readRAM(2)+1);
 		
-		switch((instruction & 0x3F00)) {
-		case 0x0700: //ADDWF
-			
-		break;
-		case 0x0500: //ANDWF
-			
-		break;
-		case 0x0100: //CLRF //CLRW
-			
-		break;
-		case 0x0900: //COMF
-			
-		break;
-		case 0x0300: //DECF
-		
-		break;
-		case 0x0B00: //DECFSZ
-		
-		break;
-		case 0x0A00: //INCF
-			
-		break;
-		case 0x0F00: //INCFSZ
-			
-		break;
-		case 0x0400: //IORWF
-			
-		break;
-		case 0x0800: //MOVF
-			
-		break;
-		case 0x0000: //MOVWF //NOP //CLRWDT //RETFILE //RETURN //SLEEP
-			
-		break;
-		case 0x0D00: //RLF
-			
-		break;
-		case 0x0C00: //RRF
-			
-		break;
-		case 0x0200: //SUBWF
-			
-		break;
-		case 0x0E00: //SWAPF
-			
-		break;
-		case 0x0600: //XORWF
-			
-			
-		break;
-		case 0x3E00: //ADDLW
-			this.intsructions.addLW((instruction & 0x00FF));
-		break;
-		case 0x3900: //ANDLW
-			this.intsructions.andLW((instruction & 0x00FF));
-		break;
-		case 0x3800: //IORLW
-			this.intsructions.iorLW((instruction & 0x00FF));
-		break;
-		case 0x3000: //MOVLW
-			this.intsructions.movLW((instruction & 0x00FF));
-		break;		
-		case 0x3C00: //SUBLW
-			this.intsructions.subLW((instruction & 0x00FF));
-		break; 
-		case 0x3A00: //XORLW
-			this.intsructions.xorLW((instruction & 0x00FF));
-		break;
-		case 0x2800: //GOTO
-			this.memory.writeRAM(2,(instruction & 0x07FF));
-		break;
-		
-		case 0x3400: //retLW
-			this.intsructions.returnLw(instruction & 0x00FF);
-		break;
-		
+		switch(instruction & 0x3000) {
+			case 0x0000: //00 Instructions
+				
+				switch((instruction & 0x0F00)) {
+					case 0x0700: //ADDWF
+						this.intsructions.addWf(instruction & 0x0FF);
+						break;
+					case 0x0500: //ANDWF
+						this.intsructions.andWf(instruction & 0x0FF);
+						break;
+					case 0x0100: //CLRF //CLRW
+							if((instruction & 0x3FFF) == 0x0100) {
+								//CLRW
+								this.intsructions.clrW();
+							} else {
+								//CLRF
+								this.intsructions.clrF(instruction & 0x0FF);
+							}
+						break;
+					case 0x0900: //COMF
+						this.intsructions.comF(instruction & 0x0FF);
+						break;
+					case 0x0300: //DECF
+						this.intsructions.decF(instruction & 0x0FF);
+						break;
+					case 0x0B00: //DECFSZ
+						this.intsructions.decFSZ(instruction & 0x0FF);
+						break;
+					case 0x0A00: //INCF
+						this.intsructions.incF(instruction & 0x0FF);
+						break;
+					case 0x0F00: //INCFSZ
+						this.intsructions.incFSZ(instruction & 0x0FF);
+						break;
+					case 0x0400: //IORWF
+						this.intsructions.ioWf(instruction & 0x0FF);
+						break;
+					case 0x0800: //MOVF
+						this.intsructions.movF(instruction & 0x0FF);
+						break;
+					case 0x0000: //MOVWF //NOP //CLRWDT //RETFILE //RETURN //SLEEP
+						switch((instruction & 0x00FF)) {
+							case 0x0000: //NOP
+								this.intsructions.nop();
+								break;
+							case 0x0064: //CLRWDT
+								this.intsructions.clrWDT();
+								break;
+							case 0x0009: //RETFIE
+								this.intsructions.retFIE();
+								break;
+							case 0x0007: //RETURN
+								this.intsructions.ret();
+								break;
+							case 0x0063: //SLEEP
+								this.intsructions.sleep();
+								break;
+							default: //MOVWF
+								this.intsructions.movWf(instruction & 0x0FF);
+								break;
+						}
+						break;
+					case 0x0D00: //RLF
+						this.intsructions.rlF(instruction & 0x0FF);
+						break;
+					case 0x0C00: //RRF
+						this.intsructions.rrF(instruction & 0x0FF);
+						break;
+					case 0x0200: //SUBWF
+						this.intsructions.subWf(instruction & 0x0FF);
+						break;
+					case 0x0E00: //SWAPF
+						this.intsructions.swapF(instruction & 0x0FF);
+						break;
+					case 0x0600: //XORWF
+						this.intsructions.xorWf(instruction & 0x0FF);
+						break;
+				}
+				break;
+				
+			case 0x1000: //01 Instructions
+				switch(instruction & 0x0B00) {
+					case 0x0000: //BCF
+						this.intsructions.bcF(instruction & 0x3FF);
+						break;
+					case 0x0400: //BSF
+						this.intsructions.bsF(instruction & 0x3FF);
+						break;
+					case 0x0700: //BTFSC
+						this.intsructions.btFSC(instruction & 0x3FF);
+						break;
+					case 0x0B00: //BTFSS
+						this.intsructions.btFSS(instruction & 0x3FF);
+						break;
+				}
+				break;
+			case 0x2000: //10 Instructions
+				if((instruction & 0x0800) > 0) {
+					//GOTO
+					this.intsructions.goTo(instruction & 0x07FF);		
+				}else {
+					//call
+					this.intsructions.call(instruction & 0x07FF);
+				}
+				break;
+			case 0x3000: //11 Instructions
+				switch(instruction & 0x0F00) {
+				
+					case 0x0E00: //ADDLW
+						this.intsructions.addLW((instruction & 0x00FF));
+					break;
+					case 0x0900: //ANDLW
+						this.intsructions.andLW((instruction & 0x00FF));
+					break;
+					case 0x0800: //IORLW
+						this.intsructions.iorLW((instruction & 0x00FF));
+					break;
+					case 0x0000: //MOVLW
+						this.intsructions.movLW((instruction & 0x00FF));
+					break;		
+					case 0x0C00: //SUBLW
+						this.intsructions.subLW((instruction & 0x00FF));
+					break; 
+					case 0x0A00: //XORLW
+						this.intsructions.xorLW((instruction & 0x00FF));
+					break;
+					case 0x0400: //retLW
+						this.intsructions.returnLw(instruction & 0x00FF);
+					break;
+				}
+				break;
+				
 			default:
 				System.out.println("Instruction not found");
-			break;
+				break;
 		}
-		/*System.out.println("PC = " + (this.programCounter-1));
-		System.out.println("STATUS_REGISTER = " + Integer.toBinaryString(this.memory.readRAM(Instructions.STATUS)));
-		System.out.println("W_REGISTER 0x= " + Integer.toHexString(this.memory.readWREG()));
-		*/
 	}
 	
 	public int getStatus(int regNumber) {
