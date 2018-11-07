@@ -81,7 +81,7 @@ public class Microcontroller {
 							case 0x0009: //RETFIE
 								this.intsructions.retFIE();
 								break;
-							case 0x0007: //RETURN
+							case 0x0008: //RETURN
 								this.intsructions.ret();
 								break;
 							case 0x0063: //SLEEP

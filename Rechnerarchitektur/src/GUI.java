@@ -36,7 +36,7 @@ public class GUI extends Application {
 				for(int i = 0;i < 500;i++) {
 					//Lines = new TableColumn[];
 				}
-				table.getColumns().add(first);
+				//table.getColumns().add(first);
 				System.out.println(this.PIC.getText());
 				} else {
 				System.out.println("File not Found");
@@ -52,7 +52,7 @@ public class GUI extends Application {
 		
 		menuBar.getChildren().addAll(file,start,step,stop,reset);
 		mainLayout.setTop(menuBar);
-		mainLayout.setCenter(table);
+		//mainLayout.setCenter(table);
 		primaryStage.setTitle("MicroController PIC16F8X"); 
 		primaryStage.setScene(new Scene(mainLayout,500,300));
 		primaryStage.show();

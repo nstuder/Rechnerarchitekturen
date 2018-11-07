@@ -61,7 +61,7 @@ public class Memory {
 	 * @return value of the stack at the current point
 	 */
 	public int pull() {
-		int value = this.stack[this.stackPointer];
+		int value = this.stack[this.stackPointer-1];
 		this.stackPointer--;
 		this.stackPointer &= 0x7;
 		return value;
