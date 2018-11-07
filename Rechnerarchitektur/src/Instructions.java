@@ -103,15 +103,17 @@ public class Instructions {
 	}
 	
 	public void call(int address) {
-		
+		this.memory.push(this.memory.readRAM(PCL));
+		this.goTo(address);
 	}
 	
 	public void ret() {
-		
+		this.goTo(this.memory.pull());
 	}
 	
 	public void returnLw(int value) {
-		
+		this.memory.writeWREG(value);
+		this.ret();
 	}
 
 	public void goTo(int value) {
@@ -222,7 +224,7 @@ public class Instructions {
 	}
 
 	public void nop() {
-		// TODO Auto-generated method stub
+		//do nothing
 		
 	}
 
