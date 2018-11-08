@@ -39,7 +39,7 @@ public class Memory {
 	 * @param address of the Memory 
 	 * @return value of the Memory at the address
 	 */
-	public int readProgramMeomory(int address) {
+	public int readProgramMemory(int address) {
 		return programMemory[address];
 	}
 	

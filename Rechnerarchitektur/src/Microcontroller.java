@@ -27,7 +27,7 @@ public class Microcontroller {
 	 * execute the next Instruction and increase the Program Counter
 	 */
 	void nextOperation(){
-		int instruction = memory.readProgramMeomory(this.memory.readRAM(2));
+		int instruction = memory.readProgramMemory(this.memory.readRAM(2));
 		this.memory.writeRAM(2, this.memory.readRAM(2)+1); //index 2 is PC
 		
 		switch(instruction & 0x3000) {
