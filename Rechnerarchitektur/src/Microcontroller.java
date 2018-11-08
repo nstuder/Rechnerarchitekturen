@@ -46,7 +46,7 @@ public class Microcontroller {
 								this.intsructions.clrW();
 							} else {
 								//CLRF
-								this.intsructions.clrF(instruction & 0x0FF);
+								this.intsructions.clrF(instruction & 0xFF);
 							}
 						break;
 					case 0x0900: //COMF
@@ -166,6 +166,9 @@ public class Microcontroller {
 				System.out.println("Instruction not found");
 				break;
 		}
+		System.out.println("Wert1: " + this.memory.readRAM(0x0C));
+		System.out.println("Wert2: " + this.memory.readRAM(0x0D));
+		System.out.println("Ergebnis: " + this.memory.readRAM(0x0E));
 	}
 	
 	public int getStatus(int regNumber) {

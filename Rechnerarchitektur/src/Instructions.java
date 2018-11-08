@@ -121,85 +121,214 @@ public class Instructions {
 	}
 
 	public void addWf(int value) {
-		
+		int temp = this.memory.readRAM(value & 0x7F);
+		temp += this.memory.readWREG();
+		if(temp > 255) { //set Carry Bit 
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x01);
+		}else{
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFE);
+		}
+		// set DC
+		if(15 < ((this.memory.readWREG() & 0x0F)+(this.memory.readRAM(value & 0x7F) & 0x0F))) { 
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x02);
+		}else{
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFD);
+		}
+		if(temp == 0) { //set Zero Bit
+				this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+			}else{
+				this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFB);
+		}
+		if((value & 0x80) > 0) {
+			this.memory.writeRAM(value  & 0x7F,temp & 0xFF);
+		}else {
+			this.memory.writeWREG(temp & 0xFF);
+		}
 	}
 
 	public void andWf(int value) {
-		
+		int temp = this.memory.readWREG() & this.memory.readRAM(value  & 0x7F);
+		if(temp == 0) { 
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+		}else{
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFB);
+		}
+		if((value & 0x80) > 0) {
+			this.memory.writeRAM(value & 0x7F,temp & 0xFF);
+		}else {
+			this.memory.writeWREG(temp & 0xFF);
+		}
 	}
 
 	public void clrW() {
-		// TODO Auto-generated method stub
-		
+		this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+		this.memory.writeWREG(0);
 	}
 
 	public void clrF(int value) {
-		// TODO Auto-generated method stub
-		
+		this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+		this.memory.writeRAM(value & 0x7F,0);
 	}
 
 	public void comF(int value) {
-		// TODO Auto-generated method stub
-		
+		int temp = 0xFF ^ this.memory.readRAM(value & 0x7F);
+		if(temp == 0) { 
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+		}else{
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFB);
+		}
+		if((value & 0x80) > 0) {
+			this.memory.writeRAM(value & 0x7F,temp & 0xFF);
+		}else {
+			this.memory.writeWREG(temp & 0xFF);
+		}
 	}
 
 	public void decF(int value) {
-		// TODO Auto-generated method stub
-		
+		int temp = this.memory.readRAM(value  & 0x7F) -1;
+		if(temp == -1) temp = 0xFF;
+		if(temp == 0) { 
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+		}else{
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFB);
+		}
+		if((value & 0x80) > 0) {
+			this.memory.writeRAM(value & 0x7F,temp & 0xFF);
+		}else {
+			this.memory.writeWREG(temp & 0xFF);
+		}
 	}
 
 	public void decFSZ(int value) {
-		// TODO Auto-generated method stub
-		
+		int temp = this.memory.readRAM(value  & 0x7F) -1;
+		if(temp == -1) temp = 0xFF;
+		if(temp == 0) this.memory.writeRAM(PCL, this.memory.readRAM(PCL)+1); 
+		if((value & 0x80) > 0) {
+			this.memory.writeRAM(value & 0x7F,temp & 0xFF);
+		}else {
+			this.memory.writeWREG(temp & 0xFF);
+		}
 	}
 
 	public void incF(int value) {
-		// TODO Auto-generated method stub
-		
+		int temp = ((this.memory.readRAM(value  & 0x7F) +1) & 0xFF);
+		if(temp == 0) { 
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+		}else{
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFB);
+		}
+		if((value & 0x80) > 0) {
+			this.memory.writeRAM(value & 0x7F,temp);
+		}else {
+			this.memory.writeWREG(temp);
+		}
 	}
 
 	public void incFSZ(int value) {
-		// TODO Auto-generated method stub
-		
+		int temp = (this.memory.readRAM(value  & 0x7F) +1) & 0xFF;
+		if(temp == 0) this.memory.writeRAM(PCL, this.memory.readRAM(PCL)+1); 
+		if((value & 0x80) > 0) {
+			this.memory.writeRAM(value & 0x7F,temp & 0xFF);
+		}else {
+			this.memory.writeWREG(temp & 0xFF);
+		}
 	}
 
 	public void ioWf(int value) {
-		// TODO Auto-generated method stub
-		
+		int temp = this.memory.readRAM(value  & 0x7F) | this.memory.readWREG();
+		if(temp == 0) { 
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+		}else{
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFB);
+		}
+		if((value & 0x80) > 0) {
+			this.memory.writeRAM(value & 0x7F,temp & 0xFF);
+		}else {
+			this.memory.writeWREG(temp & 0xFF);
+		}
 	}
 
 	public void movF(int value) {
-		// TODO Auto-generated method stub
-		
+		int temp = this.memory.readRAM(value  & 0x7F);
+		if(temp == 0) { 
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+		}else{
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFB);
+		}
+		if((value & 0x80) > 0) {
+			this.memory.writeRAM(value & 0x7F,temp & 0xFF);
+		}else {
+			this.memory.writeWREG(temp & 0xFF);
+		}
 	}
 
 	public void rlF(int value) {
-		// TODO Auto-generated method stub
-		
+		int temp = this.memory.readRAM(value  & 0x7F) << 1;
+		temp += this.memory.readRAM(STATUS) & 0x1;
+		if(temp > 255) { //set Carry Bit 
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x01);
+		}else{
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFE);
+		}
+		if((value & 0x80) > 0) {
+			this.memory.writeRAM(value & 0x7F,temp & 0xFF);
+		}else {
+			this.memory.writeWREG(temp & 0xFF);
+		}
 	}
 
 	public void rrF(int value) {
-		// TODO Auto-generated method stub
+		int tempCarry = this.memory.readRAM(value  & 0x7F) & 0x1;
+		int temp = this.memory.readRAM(value  & 0x7F) >> 1;
 		
+		temp += (this.memory.readRAM(STATUS) & 0x1) << 7;
+		if(tempCarry > 0) { //set Carry Bit 
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x01);
+		}else{
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFE);
+		}
+		if((value & 0x80) > 0) {
+			this.memory.writeRAM(value & 0x7F,temp & 0xFF);
+		}else {
+			this.memory.writeWREG(temp & 0xFF);
+		}
 	}
 
 	public void subWf(int value) {
-		// TODO Auto-generated method stub
-		
+		int temp = this.memory.readWREG();
+		this.memory.writeWREG(((temp ^ 0xFF)+1) & 0xFF);
+		this.addWf(value);
+		if((value & 0x80) > 0) {
+			this.memory.writeWREG(temp & 0xFF);
+		}
 	}
 
 	public void swapF(int value) {
-		// TODO Auto-generated method stub
-		
+		int tempLower = (this.memory.readRAM(value & 0x7F) & 0xF0) >> 4;
+		int tempUpper = (this.memory.readRAM(value & 0x7F) & 0x0F) << 4;
+		if((value & 0x80) > 0) {
+			this.memory.writeRAM(value & 0x7F,tempUpper + tempLower);
+		}else {
+			this.memory.writeWREG(tempUpper + tempLower);
+		}
 	}
 
 	public void xorWf(int value) {
-		// TODO Auto-generated method stub
+		int temp = this.memory.readRAM(value  & 0x7F) ^ this.memory.readWREG();
+		if(temp == 0) { 
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
+		}else{
+			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) & 0xFB);
+		}
+		if((value & 0x80) > 0) {
+			this.memory.writeRAM(value & 0x7F,temp & 0xFF);
+		}else {
+			this.memory.writeWREG(temp & 0xFF);
+		}
 		
 	}
 
 	public void bcF(int value) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -217,10 +346,12 @@ public class Instructions {
 		// TODO Auto-generated method stub
 		
 	}
-
+	/**
+	 * 
+	 * @param value
+	 */
 	public void movWf(int value) {
-		// TODO Auto-generated method stub
-		
+		this.memory.writeRAM(value & 0x7F, this.memory.readWREG());
 	}
 
 	public void nop() {
