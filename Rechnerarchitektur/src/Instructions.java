@@ -329,22 +329,31 @@ public class Instructions {
 	}
 
 	public void bcF(int value) {
-		
+		int bitPosition = value >> 7;
+		int address = value & 0x7F;
+		this.memory.writeRAM(address,this.memory.readRAM(address) & (~(0x1 << bitPosition)));
 	}
 
 	public void bsF(int value) {
-		// TODO Auto-generated method stub
-		
+		int bitPosition = value >> 7;
+		int address = value & 0x7F;
+		this.memory.writeRAM(address,this.memory.readRAM(address) | (0x1 << bitPosition));
 	}
 
 	public void btFSC(int value) {
-		// TODO Auto-generated method stub
-		
+		int bitPosition = value >> 7;
+		int address = value & 0x7F;
+		if(0 == (this.memory.readRAM(address) & (0x1 << bitPosition))){
+			this.memory.writeRAM(PCL, this.memory.readRAM(PCL)+1);
+		}
 	}
 
 	public void btFSS(int value) {
-		// TODO Auto-generated method stub
-		
+		int bitPosition = value >> 7;
+		int address = value & 0x7F;
+		if(0 < (this.memory.readRAM(address) & (0x1 << bitPosition))){
+			this.memory.writeRAM(PCL, this.memory.readRAM(PCL)+1);
+		}
 	}
 	/**
 	 * 
@@ -365,11 +374,12 @@ public class Instructions {
 	}
 
 	public void retFIE() {
-		// TODO Auto-generated method stub
-		
+		this.memory.writeRAM(11,this.memory.readRAM(11) & 0x7F);
+		this.ret();
 	}
 
 	public void sleep() {
+		
 		// TODO Auto-generated method stub
 		
 	}

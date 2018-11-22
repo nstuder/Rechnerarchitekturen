@@ -231,8 +231,14 @@ public class GuiController {
     void step(ActionEvent event) {
     	PIC.nextOperation();
     	this.wRegister.setText("0x" + Integer.toHexString(PIC.getStatus(0)));
+    	
+    	regData.get(8).setNewValue(PIC.getStatus(7));
+    	regData.get(5).setNewValue(PIC.getStatus(6));
+    	regData.get(4).setNewValue(PIC.getStatus(5));
+    	regData.get(3).setNewValue(PIC.getStatus(4));
     	regData.get(2).setNewValue(PIC.getStatus(3));
     	regData.get(1).setNewValue(PIC.getStatus(2));
+    	regData.get(0).setNewValue(PIC.getStatus(1));
     	this.regTable.refresh();
     	//codeTable.getSelectionModel().select(5);
     	for(int i = 0 ;i < codeData.size();i++){

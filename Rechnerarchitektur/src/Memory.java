@@ -99,7 +99,11 @@ public class Memory {
 	 * @param value
 	 */
 	public void writeRAM(int address,int value) {
-		this.mainMemory[address] = value;
+		if(address == 0) {
+			this.mainMemory[this.mainMemory[4]] = value;
+		}else {
+			this.mainMemory[address] = value;
+		}
 	}
 	
 	
@@ -109,6 +113,10 @@ public class Memory {
 	 * @return
 	 */
 	public int readRAM(int address) {
-		return this.mainMemory[address];
+		if(address == 0) {
+			return this.mainMemory[this.mainMemory[4]];
+		}else {
+			return this.mainMemory[address];
+		}
 	}
 }
