@@ -43,9 +43,9 @@
           </font>
         </Label>
             <Button id="start" fx:id="start" disable="true" layoutX="20.0" layoutY="14.0" mnemonicParsing="false" onAction="#start" text="Start" />
-            <Button fx:id="stop" disable="true" layoutX="119.0" layoutY="14.0" mnemonicParsing="false" onAction="#stop" text="Stop" />
-            <Button fx:id="step" disable="true" layoutX="69.0" layoutY="14.0" mnemonicParsing="false" onAction="#step" text="Step" />
-            <Button fx:id="reset" disable="true" layoutX="172.0" layoutY="14.0" mnemonicParsing="false" onAction="#reset" text="Reset" />
+            <Button fx:id="stop" disable="true" layoutX="134.0" layoutY="14.0" mnemonicParsing="false" onAction="#stop" text="Stop" />
+            <Button fx:id="step" disable="true" layoutX="79.0" layoutY="14.0" mnemonicParsing="false" onAction="#step" text="Step" />
+            <Button fx:id="reset" disable="true" layoutX="191.0" layoutY="14.0" mnemonicParsing="false" onAction="#reset" text="Reset" />
             <TableView fx:id="codeTable" layoutX="441.0" layoutY="57.0" prefHeight="470.0" prefWidth="396.0" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="441.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="57.0">
                <columns>
                   <TableColumn fx:id="codeLine" editable="false" maxWidth="60.0" minWidth="32.0" prefWidth="32.0" sortable="false" text="Line" />
@@ -57,20 +57,20 @@
             </TableView>
             <CheckBox fx:id="A7" disable="true" layoutX="66.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="7" />
             <CheckBox fx:id="A6" disable="true" layoutX="104.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="6" />
-            <CheckBox fx:id="A4" disable="true" layoutX="172.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="4" />
-            <CheckBox fx:id="A5" disable="true" layoutX="139.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="5" />
-            <CheckBox fx:id="A3" disable="true" layoutX="206.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="3" />
-            <CheckBox fx:id="A2" disable="true" layoutX="238.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="2" />
-            <CheckBox fx:id="A0" disable="true" layoutX="308.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="0" />
-            <CheckBox fx:id="A1" disable="true" layoutX="273.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="1" />
-            <CheckBox fx:id="B3" disable="true" layoutX="206.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="3" />
-            <CheckBox fx:id="B2" disable="true" layoutX="238.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="2" />
-            <CheckBox fx:id="B0" disable="true" layoutX="308.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="0" />
-            <CheckBox fx:id="B1" disable="true" layoutX="273.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="1" />
-            <CheckBox fx:id="B4" contentDisplay="CENTER" disable="true" layoutX="172.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="4" />
+            <CheckBox fx:id="A4" disable="true" layoutX="182.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="4" />
+            <CheckBox fx:id="A5" disable="true" layoutX="141.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="5" />
+            <CheckBox fx:id="A3" disable="true" layoutX="225.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="3" />
+            <CheckBox fx:id="A2" disable="true" layoutX="273.0" layoutY="56.0" mnemonicParsing="false" onAction="#setPortA" text="2" />
+            <CheckBox fx:id="A0" disable="true" layoutX="371.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="0" />
+            <CheckBox fx:id="A1" disable="true" layoutX="324.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="1" />
+            <CheckBox fx:id="B3" disable="true" layoutX="225.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="3" />
+            <CheckBox fx:id="B2" disable="true" layoutX="273.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="2" />
+            <CheckBox fx:id="B0" disable="true" layoutX="371.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="0" />
+            <CheckBox fx:id="B1" disable="true" layoutX="324.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="1" />
+            <CheckBox fx:id="B4" contentDisplay="CENTER" disable="true" layoutX="182.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="4" />
             <Label layoutX="17.0" layoutY="56.0" prefHeight="18.0" prefWidth="53.0" text="Port A" />
             <Label layoutX="15.0" layoutY="123.0" text="W Register" />
-            <TextField fx:id="wRegister" editable="false" layoutX="86.0" layoutY="119.0" prefHeight="26.0" prefWidth="94.0" />
+            <TextField fx:id="wRegister" editable="false" layoutX="98.0" layoutY="118.0" prefHeight="26.0" prefWidth="94.0" />
             <Label layoutX="17.0" layoutY="82.0" prefHeight="18.0" prefWidth="53.0" text="Port B" />
             <TableView fx:id="regTable" focusTraversable="false" layoutX="15.0" layoutY="162.0" prefHeight="366.0" prefWidth="396.0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="162.0">
               <columns>
@@ -86,7 +86,7 @@
                   <TableColumn fx:id="reg0" editable="false" maxWidth="30.0" minWidth="30.0" prefWidth="75.0" sortable="false" text="0" />
               </columns>
             </TableView>
-            <Label fx:id="runtime" layoutX="240.0" layoutY="18.0" prefHeight="18.0" prefWidth="168.0" text="Runtime: " />
+            <Label fx:id="runtime" layoutX="259.0" layoutY="19.0" prefHeight="18.0" prefWidth="168.0" text="Runtime: " />
       </children>
     </AnchorPane>
   </children>

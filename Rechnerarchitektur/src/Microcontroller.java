@@ -12,6 +12,7 @@ public class Microcontroller {
 	private Input input;
 	private Instructions intsructions;
 	private int cycles;
+	private int timerCount;
 	
 	/**
 	 * Initialize Program Counter
@@ -59,7 +60,7 @@ public class Microcontroller {
 					case 0x0B00: //DECFSZ
 						int temp = this.memory.readRAM(2);
 						this.intsructions.decFSZ(instruction & 0x0FF);
-						if(this.memory.readRAM(2) - temp > 0) this.cycles++;
+						if(this.memory.readRAM(2) - temp > 0) this.incCycles();
 						break;
 					case 0x0A00: //INCF
 						this.intsructions.incF(instruction & 0x0FF);
@@ -67,7 +68,7 @@ public class Microcontroller {
 					case 0x0F00: //INCFSZ
 						int temp2 = this.memory.readRAM(2);
 						this.intsructions.incFSZ(instruction & 0x0FF);
-						if(this.memory.readRAM(2) - temp2 > 0) this.cycles++;
+						if(this.memory.readRAM(2) - temp2 > 0) this.incCycles();
 						break;
 					case 0x0400: //IORWF
 						this.intsructions.ioWf(instruction & 0x0FF);
@@ -85,11 +86,11 @@ public class Microcontroller {
 								break;
 							case 0x0009: //RETFIE
 								this.intsructions.retFIE();
-								this.cycles++;
+								this.incCycles();
 								break;
 							case 0x0008: //RETURN
 								this.intsructions.ret();
-								this.cycles++;
+								this.incCycles();
 								break;
 							case 0x0063: //SLEEP
 								this.intsructions.sleep();
@@ -128,12 +129,12 @@ public class Microcontroller {
 					case 0x0800: //BTFSC
 						int temp = this.memory.readRAM(2);
 						this.intsructions.btFSC(instruction & 0x3FF);
-						if(this.memory.readRAM(2) - temp > 0) this.cycles++;
+						if(this.memory.readRAM(2) - temp > 0) this.incCycles();
 						break;
 					case 0x0C00: //BTFSS
 						int temp2 = this.memory.readRAM(2);
 						this.intsructions.btFSS(instruction & 0x3FF);
-						if(this.memory.readRAM(2) - temp2 > 0) this.cycles++;
+						if(this.memory.readRAM(2) - temp2 > 0) this.incCycles();
 						break;
 				}
 				break;
@@ -141,11 +142,11 @@ public class Microcontroller {
 				if((instruction & 0x0800) > 0) {
 					//GOTO
 					this.intsructions.goTo(instruction & 0x07FF);	
-					this.cycles++;
+					this.incCycles();
 				}else {
 					//call
 					this.intsructions.call(instruction & 0x07FF);
-					this.cycles++;
+					this.incCycles();
 				}
 				break;
 			case 0x3000: //11 Instructions
@@ -171,7 +172,7 @@ public class Microcontroller {
 					break;
 					case 0x0400: //retLW
 						this.intsructions.returnLw(instruction & 0x00FF);
-						this.cycles++;
+						this.incCycles();
 					break;
 				}
 				break;
@@ -180,7 +181,8 @@ public class Microcontroller {
 				System.out.println("Instruction not found");
 				break;
 		}
-		this.cycles++;
+		this.incCycles();
+		
 		// Timer interrupt
 		if((this.memory.readRAM(11) & 0x4) > 0) {
 			if((this.memory.readRAM(11) & 0x80) > 0) {
@@ -195,11 +197,29 @@ public class Microcontroller {
 		System.out.println("Ergebnis: " + this.memory.readRAM(0x0E));
 	}
 	
+	private void incCycles() {
+		this.cycles++;
+		//if((this.memory.readRAM(11) & 0x10) > 0) 
+			this.timerCount++;
+		if(this.timerCount == Math.pow(2,(this.memory.read(0x81) & 0x7)+1)) {
+			int temp = this.memory.readRAM(1) + 1;
+			if(temp > 255) this.memory.writeRAM(11 , this.memory.readRAM(11) | (1<<2) );
+			this.memory.writeRAM(1 , temp & 0xFF);
+			this.timerCount = 0;
+		}
+	}
+	
 	public int getStatus(int regNumber) {
 		if(regNumber != 0) {
-			return this.memory.readRAM(regNumber);
+			return this.memory.read(regNumber);
 		}else {
 			return this.memory.readWREG();
+		}
+	}
+	
+	public void setStatus(int regNumber,int value) {
+		if(regNumber != 0) {
+			this.memory.write(regNumber,value);
 		}
 	}
 	

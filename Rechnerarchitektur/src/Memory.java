@@ -18,7 +18,7 @@ public class Memory {
 	 * Initialize mainMemory,programmMemory,stack,stackPointer,w_Reg
 	 */
 	Memory(){
-		mainMemory = new int[255];
+		mainMemory = new int[256];
 		programMemory = new int[512];
 		stack = new int[8];
 		stackPointer = 0;
@@ -99,14 +99,30 @@ public class Memory {
 	 * @param value
 	 */
 	public void writeRAM(int address,int value) {
+		
 		if(address == 0) {
 			this.mainMemory[this.mainMemory[4]] = value;
 		}else {
-			this.mainMemory[address] = value;
+			if((this.mainMemory[3] & (1<<5)) > 1) {
+				if(address == 0 || address == 2 || address == 3 || address == 4 || address == 10 || address == 11) {
+					this.mainMemory[address] = value;
+				}else {
+					this.mainMemory[address+128] = value;
+				}
+			}else {
+				this.mainMemory[address] = value;
+			}
 		}
 	}
 	
-	
+	/**
+	 * write to main Memory
+	 * @param address
+	 * @param value
+	 */
+	public void write(int address,int value) {
+		this.mainMemory[address] = value;	
+	}
 	/**
 	 * read from mainMemory
 	 * @param address
@@ -116,7 +132,24 @@ public class Memory {
 		if(address == 0) {
 			return this.mainMemory[this.mainMemory[4]];
 		}else {
-			return this.mainMemory[address];
+			if((this.mainMemory[3] & (1<<5)) > 1) {
+				if(address == 0 || address == 2 || address == 3 || address == 4 || address == 10 || address == 11) {
+					return this.mainMemory[address];
+				}else {
+					return this.mainMemory[address+128];
+				}
+			}else {
+				return this.mainMemory[address];
+			}
 		}
+	}
+	
+	/**
+	 * read from mainMemory
+	 * @param address
+	 * @return
+	 */
+	public int read(int address) {
+		return this.mainMemory[address];
 	}
 }

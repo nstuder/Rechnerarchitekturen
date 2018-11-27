@@ -1,7 +1,11 @@
-import java.io.File; 
+import java.io.File;  
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.animation.Animation;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
+import javafx.util.Duration;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +26,7 @@ public class GuiController {
 
 	//Microcontroller 
 	private Microcontroller PIC;
+	private Timeline runTime;
 	
     public ObservableList<Register> regData =
             FXCollections.observableArrayList(
@@ -29,6 +34,8 @@ public class GuiController {
                 new Register("PCL", 0),
                 new Register("STATUS", 0),
                 new Register("FSR", 0),
+                new Register("PORTA", 0),
+                new Register("PORTB", 0),
                 new Register("PCLATH", 0),
                 new Register("INTCON", 0),
                 new Register("INDF", 0),
@@ -168,7 +175,10 @@ public class GuiController {
 		File result = fileChooser.showOpenDialog(new Stage());
 		if (result != null) {
 		PIC = new Microcontroller(result);
-
+		
+		this.runTime = new Timeline(new KeyFrame(Duration.millis(50), e -> step(null)));
+		this.runTime.setCycleCount(Animation.INDEFINITE);
+		
 		// enable Buttons
 		this.step.setDisable(false);
 		this.start.setDisable(false);
@@ -214,17 +224,36 @@ public class GuiController {
 
     @FXML
     void setPortA(ActionEvent event) {
-
+    	int portA = 0;
+    	if(this.A0.isSelected()) portA += 1;
+    	if(this.A1.isSelected()) portA += 2;
+    	if(this.A2.isSelected()) portA += 4;
+    	if(this.A3.isSelected()) portA += 8;
+    	if(this.A4.isSelected()) portA += 16;
+    	if(this.A5.isSelected()) portA += 32;
+    	if(this.A6.isSelected()) portA += 64;
+    	if(this.A7.isSelected()) portA += 128;
+    	this.PIC.setStatus(5, portA);
+    	regData.get(4).setNewValue(PIC.getStatus(5));
+    	this.regTable.refresh();
     }
 
     @FXML
     void setPortB(ActionEvent event) {
-
+    	int portB = 0;
+    	if(this.B0.isSelected()) portB += 1;
+    	if(this.B1.isSelected()) portB += 2;
+    	if(this.B2.isSelected()) portB += 4;
+    	if(this.B3.isSelected()) portB += 8;
+    	if(this.B4.isSelected()) portB += 16;
+    	this.PIC.setStatus(6, portB);
+    	regData.get(5).setNewValue(PIC.getStatus(6));
+    	this.regTable.refresh();
     }
 
     @FXML
     void start(ActionEvent event) {
-
+    	this.runTime.play();
     }
 
     @FXML
@@ -232,7 +261,9 @@ public class GuiController {
     	PIC.nextOperation();
     	this.wRegister.setText("0x" + Integer.toHexString(PIC.getStatus(0)));
     	
-    	regData.get(8).setNewValue(PIC.getStatus(7));
+    	regData.get(9).setNewValue(PIC.getStatus(0x81));
+    	regData.get(8).setNewValue(PIC.getStatus(12));
+    	regData.get(7).setNewValue(PIC.getStatus(11));
     	regData.get(5).setNewValue(PIC.getStatus(6));
     	regData.get(4).setNewValue(PIC.getStatus(5));
     	regData.get(3).setNewValue(PIC.getStatus(4));
@@ -248,7 +279,7 @@ public class GuiController {
 
     @FXML
     void stop(ActionEvent event) {
-
+    	this.runTime.stop();
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
