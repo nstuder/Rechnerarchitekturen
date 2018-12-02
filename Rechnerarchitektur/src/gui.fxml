@@ -37,7 +37,7 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-        <Label alignment="CENTER" layoutX="441.0" layoutY="13.0" style="&#10;" text="Source Code" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+        <Label alignment="CENTER" layoutX="441.0" layoutY="13.0" style="&#10;" text="Speed" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
           <font>
             <Font size="18.0" />
           </font>
@@ -87,6 +87,7 @@
               </columns>
             </TableView>
             <Label fx:id="runtime" layoutX="259.0" layoutY="19.0" prefHeight="18.0" prefWidth="168.0" text="Runtime: " />
+            <Slider fx:id="runSpeed" layoutX="510.0" layoutY="21.0" max="10000.0" min="1.0" onDragDetected="#setSpeed" value="1000.0" />
       </children>
     </AnchorPane>
   </children>

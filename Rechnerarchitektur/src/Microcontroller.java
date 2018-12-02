@@ -12,7 +12,7 @@ public class Microcontroller {
 	private Input input;
 	private Instructions intsructions;
 	private int cycles;
-	private int timerCount;
+	public static int timerCount;
 	
 	/**
 	 * Initialize Program Counter
@@ -192,20 +192,69 @@ public class Microcontroller {
 			}
 		}
 		
+		
 		System.out.println("Wert1: " + Integer.toHexString(this.memory.readRAM(0x0C)));
 		System.out.println("Wert2: " + Integer.toHexString(this.memory.readRAM(0x0D)));
 		System.out.println("Ergebnis: " + this.memory.readRAM(0x0E));
+		System.out.println("10h: " + Integer.toHexString(this.memory.readRAM(0x10)));
 	}
 	
 	private void incCycles() {
 		this.cycles++;
-		//if((this.memory.readRAM(11) & 0x10) > 0) 
-			this.timerCount++;
-		if(this.timerCount == Math.pow(2,(this.memory.read(0x81) & 0x7)+1)) {
+		if((this.memory.read(0x81) & 0x20) == 0) this.incTimer(false);
+	}
+	
+	public synchronized void incTimer(boolean flanke) {
+		if((this.memory.read(0x81) & 0x20) > 0) {
+			if((this.memory.read(0x81) & 0x10) > 0) {
+				System.out.println("in timer");
+				if(flanke == false) {
+					this.timerCount++;
+					System.out.println(this.timerCount);
+					if((this.memory.read(0x81) & 0x8) > 0) {
+						int temp = this.memory.readRAM(1) + 1;
+						if(temp > 255) this.memory.writeRAM(11 , this.memory.readRAM(11) | (1<<2) );
+						this.memory.writeRAM(1 , temp & 0xFF);
+						this.timerCount = 0;
+					}else if(this.timerCount == Math.pow(2,(this.memory.read(0x81) & 0x7)+1)) {
+						System.out.println("in flanke");
+						int temp = this.memory.readRAM(1) + 1;
+						if(temp > 255) this.memory.writeRAM(11 , this.memory.readRAM(11) | (1<<2) );
+						this.memory.writeRAM(1 , temp & 0xFF);
+						this.timerCount = 0;
+					}
+				}
+			}else {
+				if(flanke == true) {
+					this.timerCount++;
+					System.out.println(this.timerCount);
+					if((this.memory.read(0x81) & 0x8) > 0) {
+						int temp = this.memory.readRAM(1) + 1;
+						if(temp > 255) this.memory.writeRAM(11 , this.memory.readRAM(11) | (1<<2) );
+						this.memory.writeRAM(1 , temp & 0xFF);
+						this.timerCount = 0;
+					}else if(this.timerCount == Math.pow(2,(this.memory.read(0x81) & 0x7)+1)) {
+						System.out.println("in flanke");
+						int temp = this.memory.readRAM(1) + 1;
+						if(temp > 255) this.memory.writeRAM(11 , this.memory.readRAM(11) | (1<<2) );
+						this.memory.writeRAM(1 , temp & 0xFF);
+						this.timerCount = 0;
+					}
+				}
+			}
+		}else {
+		this.timerCount++;
+		if((this.memory.read(0x81) & 0x8) > 0) {
 			int temp = this.memory.readRAM(1) + 1;
 			if(temp > 255) this.memory.writeRAM(11 , this.memory.readRAM(11) | (1<<2) );
 			this.memory.writeRAM(1 , temp & 0xFF);
 			this.timerCount = 0;
+		}else if(this.timerCount == Math.pow(2,(this.memory.read(0x81) & 0x7)+1)) {
+			int temp = this.memory.readRAM(1) + 1;
+			if(temp > 255) this.memory.writeRAM(11 , this.memory.readRAM(11) | (1<<2) );
+			this.memory.writeRAM(1 , temp & 0xFF);
+			this.timerCount = 0;
+		}
 		}
 	}
 	
@@ -245,6 +294,7 @@ public class Microcontroller {
 		this.memory.writeWREG(0);
 		this.memory.writeRAM(2,0);
 		this.cycles = 0;
+		//this.timerCount = 0;
 	}
 	
 	public void resetAll() {

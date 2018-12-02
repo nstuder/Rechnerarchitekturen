@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -47,13 +48,16 @@ public class GuiController {
     
     public ObservableList<Line> codeData =
             FXCollections.observableArrayList();
-	
+    
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
 
+    @FXML // fx:id="runSpeed"
+    private Slider runSpeed; // Value injected by FXMLLoader
+    
     @FXML // fx:id="codeTable"
     private TableView<Line> codeTable; // Value injected by FXMLLoader
 
@@ -161,7 +165,11 @@ public class GuiController {
 
     @FXML // fx:id="open"
     private MenuItem open; // Value injected by FXMLLoader
-
+    
+    @FXML
+    void setSpeed(ActionEvent event) {
+    	this.runTime.setDelay(new Duration(this.runSpeed.getValue()));
+    }
     
     @FXML
     void close(ActionEvent event) {
@@ -176,7 +184,7 @@ public class GuiController {
 		if (result != null) {
 		PIC = new Microcontroller(result);
 		
-		this.runTime = new Timeline(new KeyFrame(Duration.millis(50), e -> step(null)));
+		this.runTime = new Timeline(new KeyFrame(Duration.millis(5), e -> step(null)));
 		this.runTime.setCycleCount(Animation.INDEFINITE);
 		
 		// enable Buttons
@@ -236,6 +244,15 @@ public class GuiController {
     	this.PIC.setStatus(5, portA);
     	regData.get(4).setNewValue(PIC.getStatus(5));
     	this.regTable.refresh();
+
+    	CheckBox temp  = (CheckBox) event.getSource();
+    	if(temp.getId().equals("A4")) {
+    		if(temp.isSelected()) {
+    			this.PIC.incTimer(true);
+    		}else {
+    			this.PIC.incTimer(false);
+    		}
+    	}
     }
 
     @FXML
@@ -257,7 +274,7 @@ public class GuiController {
     }
 
     @FXML
-    void step(ActionEvent event) {
+    synchronized void step(ActionEvent event) {
     	PIC.nextOperation();
     	this.wRegister.setText("0x" + Integer.toHexString(PIC.getStatus(0)));
     	
