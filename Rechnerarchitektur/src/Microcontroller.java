@@ -182,16 +182,24 @@ public class Microcontroller {
 				break;
 		}
 		this.incCycles();
-		
-		// Timer interrupt
-		if((this.memory.readRAM(11) & 0x4) > 0) {
-			if((this.memory.readRAM(11) & 0x80) > 0) {
-				if((this.memory.readRAM(11) & 0x20) > 0) {
-					this.intsructions.call(4);
-				}
+		// If Interrupt Global allowed
+		if((this.memory.readRAM(11) & 0x80) > 0) {
+			// Timer interrupt
+			if((this.memory.readRAM(11) & 0x4) > 0 && (this.memory.readRAM(11) & 0x20) > 0) {
+				this.intsructions.call(4);
+				this.memory.writeRAM(11 , this.memory.readRAM(11) & 0x7F);
+			}
+			// Port RB0 interrupt
+			if((this.memory.readRAM(11) & 0x2) > 0 && (this.memory.readRAM(11) & 0x10) > 0) {
+				this.intsructions.call(4);
+				this.memory.writeRAM(11 , this.memory.readRAM(11) & 0x7F);			
+			}
+			// Port RB changed interrupt
+			if((this.memory.readRAM(11) & 0x1) > 0 && (this.memory.readRAM(11) & 0x8) > 0) {
+				this.intsructions.call(4);
+				this.memory.writeRAM(11 , this.memory.readRAM(11) & 0x7F);			
 			}
 		}
-		
 		
 		System.out.println("Wert1: " + Integer.toHexString(this.memory.readRAM(0x0C)));
 		System.out.println("Wert2: " + Integer.toHexString(this.memory.readRAM(0x0D)));

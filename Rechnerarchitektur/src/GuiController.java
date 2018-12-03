@@ -166,22 +166,14 @@ public class GuiController {
     @FXML // fx:id="open"
     private MenuItem open; // Value injected by FXMLLoader
     
-    @FXML
-    void setSpeed(ActionEvent event) {
-    	this.runTime.setDelay(new Duration(this.runSpeed.getValue()));
+    public void setFile(String path) {
+    	if(path != null) {
+    		File newFile = new File(path);
+    		this.startNewMicro(newFile);
+    	}
     }
     
-    @FXML
-    void close(ActionEvent event) {
-
-    }
-
-    @FXML
-    void open(ActionEvent event) {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Open Resource File");
-		File result = fileChooser.showOpenDialog(new Stage());
-		if (result != null) {
+    private void startNewMicro(File result){
 		PIC = new Microcontroller(result);
 		
 		this.runTime = new Timeline(new KeyFrame(Duration.millis(5), e -> step(null)));
@@ -210,9 +202,27 @@ public class GuiController {
 		//this.codeData = PIC.getText();
 		this.codeTable.refresh();
 		this.reset(null);
-		//System.out.println(this.PIC.getText());
+    }
+    
+    @FXML
+    void setSpeed(ActionEvent event) {
+    	this.runTime.setDelay(new Duration(this.runSpeed.getValue()));
+    }
+    
+    @FXML
+    void close(ActionEvent event) {
+    	
+    }
+
+    @FXML
+    void open(ActionEvent event) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Resource File");
+		File result = fileChooser.showOpenDialog(new Stage());
+		if (result != null) {
+			startNewMicro(result);
 		} else {
-		System.out.println("File not Found");
+			System.out.println("File not Found");
 		}
     }
 
