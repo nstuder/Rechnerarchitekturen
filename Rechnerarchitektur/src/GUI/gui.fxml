@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GuiController">
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.GuiController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -55,19 +55,19 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <CheckBox fx:id="A7" disable="true" layoutX="66.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="7" />
-            <CheckBox fx:id="A6" disable="true" layoutX="104.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="6" />
-            <CheckBox fx:id="A4" disable="true" layoutX="182.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="4" />
-            <CheckBox fx:id="A5" disable="true" layoutX="141.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="5" />
-            <CheckBox fx:id="A3" disable="true" layoutX="225.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="3" />
-            <CheckBox fx:id="A2" disable="true" layoutX="273.0" layoutY="56.0" mnemonicParsing="false" onAction="#setPortA" text="2" />
-            <CheckBox fx:id="A0" disable="true" layoutX="371.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="0" />
-            <CheckBox fx:id="A1" disable="true" layoutX="324.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="1" />
-            <CheckBox fx:id="B3" disable="true" layoutX="225.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="3" />
-            <CheckBox fx:id="B2" disable="true" layoutX="273.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="2" />
-            <CheckBox fx:id="B0" disable="true" layoutX="371.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="0" />
-            <CheckBox fx:id="B1" disable="true" layoutX="324.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="1" />
-            <CheckBox fx:id="B4" contentDisplay="CENTER" disable="true" layoutX="182.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="4" />
+            <CheckBox fx:id="B7" disable="true" layoutX="69.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="7" />
+            <CheckBox fx:id="B6" disable="true" layoutX="111.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="6" />
+            <CheckBox fx:id="A4" disable="true" layoutX="195.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="4" />
+            <CheckBox fx:id="B5" disable="true" layoutX="154.0" layoutY="82.0" mnemonicParsing="false" onAction="#setPortB" text="5" />
+            <CheckBox fx:id="A3" disable="true" layoutX="241.0" layoutY="56.0" mnemonicParsing="false" onAction="#setPortA" text="3" />
+            <CheckBox fx:id="A2" disable="true" layoutX="282.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="2" />
+            <CheckBox fx:id="A0" disable="true" layoutX="382.0" layoutY="56.0" mnemonicParsing="false" onAction="#setPortA" text="0" />
+            <CheckBox fx:id="A1" disable="true" layoutX="333.0" layoutY="57.0" mnemonicParsing="false" onAction="#setPortA" text="1" />
+            <CheckBox fx:id="B3" disable="true" layoutX="241.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="3" />
+            <CheckBox fx:id="B2" disable="true" layoutX="282.0" layoutY="82.0" mnemonicParsing="false" onAction="#setPortB" text="2" />
+            <CheckBox fx:id="B0" disable="true" layoutX="382.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="0" />
+            <CheckBox fx:id="B1" disable="true" layoutX="333.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="1" />
+            <CheckBox fx:id="B4" contentDisplay="CENTER" disable="true" layoutX="195.0" layoutY="83.0" mnemonicParsing="false" onAction="#setPortB" text="4" />
             <Label layoutX="17.0" layoutY="56.0" prefHeight="18.0" prefWidth="53.0" text="Port A" />
             <Label layoutX="15.0" layoutY="123.0" text="W Register" />
             <TextField fx:id="wRegister" editable="false" layoutX="98.0" layoutY="118.0" prefHeight="26.0" prefWidth="94.0" />

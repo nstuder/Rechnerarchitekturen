@@ -1,4 +1,5 @@
-import javafx.application.Application; 
+package GUI;
+import javafx.application.Application;  
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
@@ -16,7 +17,7 @@ public class Main extends Application {
 			GuiController controller = fxmlLoader.<GuiController>getController();
 			Parameters path = this.getParameters();
 			if(path.getRaw().size() > 0)
-			controller.setFile(path.getRaw().get(0));
+				controller.setFile(path.getRaw().get(0));
 			scene.getStylesheets().add(getClass().getResource("default.css").toExternalForm());
 			primaryStage.setTitle("MicroController PIC16F8X"); 
 			primaryStage.setScene(scene);

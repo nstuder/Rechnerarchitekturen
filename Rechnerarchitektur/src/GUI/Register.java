@@ -1,3 +1,4 @@
+package GUI;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Register{

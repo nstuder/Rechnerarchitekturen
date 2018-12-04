@@ -1,3 +1,4 @@
+package Controller;
 /**
  * 
  * @author FlorianGrunwald, NiklasStuder
@@ -12,6 +13,7 @@ public class Memory {
 	private int programMemory[];
 	private int stackPointer;
 	private int w_Reg;
+	private int pcHigh;
 	
 	/**
 	 * Main Constructor 
@@ -23,6 +25,7 @@ public class Memory {
 		stack = new int[8];
 		stackPointer = 0;
 		w_Reg = 0;
+		pcHigh = 0;
 	}
 	
 	//Program Memory Operations
@@ -123,6 +126,14 @@ public class Memory {
 	public void write(int address,int value) {
 		this.mainMemory[address] = value;	
 	}
+	public int getPcHigh() {
+		return pcHigh;
+	}
+
+	public void setPcHigh(int pcHigh) {
+		this.pcHigh = pcHigh;
+	}
+
 	/**
 	 * read from mainMemory
 	 * @param address

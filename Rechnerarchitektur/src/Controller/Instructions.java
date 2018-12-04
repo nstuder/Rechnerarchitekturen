@@ -1,3 +1,4 @@
+package Controller;
 /**
  * Class for each Instruction of the Micro Controller
  * @author FlorianGrunwald, NiklasStuder
@@ -103,12 +104,15 @@ public class Instructions {
 	}
 	
 	public void call(int address) {
-		this.memory.push(this.memory.readRAM(PCL));
-		this.goTo(address);
+		this.memory.push((this.memory.getPcHigh() << 8) + this.memory.readRAM(PCL));
+		this.memory.writeRAM(PCL,address & 0xFF);
+		this.memory.setPcHigh(this.memory.read(0xA));
 	}
 	
 	public void ret() {
-		this.goTo(this.memory.pull());
+		int temp = this.memory.pull();
+		this.memory.setPcHigh(temp >> 8);
+		this.memory.writeRAM(PCL,temp & 0xFF);
 	}
 	
 	public void returnLw(int value) {
@@ -117,7 +121,9 @@ public class Instructions {
 	}
 
 	public void goTo(int value) {
-		this.memory.writeRAM(PCL,value);	
+		this.memory.writeRAM(PCL,value & 0xFF);
+		//fehler???
+		this.memory.setPcHigh(value >> 8);
 	}
 
 	public void addWf(int value) {
