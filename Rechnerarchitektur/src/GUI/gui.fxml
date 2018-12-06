@@ -87,7 +87,7 @@
               </columns>
             </TableView>
             <Label fx:id="runtime" layoutX="259.0" layoutY="19.0" prefHeight="18.0" prefWidth="168.0" text="Runtime: " />
-            <Slider fx:id="runSpeed" layoutX="510.0" layoutY="21.0" max="10000.0" min="1.0" onDragDetected="#setSpeed" value="1000.0" />
+            <Slider fx:id="runSpeed" layoutX="510.0" layoutY="21.0" max="10000.0" min="1.0" onDragDetected="#setSpeed" prefHeight="18.0" prefWidth="328.0" value="1000.0" />
       </children>
     </AnchorPane>
   </children>

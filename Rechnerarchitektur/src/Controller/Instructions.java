@@ -104,15 +104,15 @@ public class Instructions {
 	}
 	
 	public void call(int address) {
-		this.memory.push((this.memory.getPcHigh() << 8) + this.memory.readRAM(PCL));
-		this.memory.writeRAM(PCL,address & 0xFF);
-		this.memory.setPcHigh(this.memory.read(0xA));
+		this.memory.push((this.memory.getPcHigh() << 8) + this.memory.read(PCL));
+		this.memory.write(PCL,address & 0xFF);
+		this.memory.setPcHigh(address>>8);
 	}
 	
 	public void ret() {
 		int temp = this.memory.pull();
 		this.memory.setPcHigh(temp >> 8);
-		this.memory.writeRAM(PCL,temp & 0xFF);
+		this.memory.write(PCL,temp & 0xFF);
 	}
 	
 	public void returnLw(int value) {
@@ -121,8 +121,7 @@ public class Instructions {
 	}
 
 	public void goTo(int value) {
-		this.memory.writeRAM(PCL,value & 0xFF);
-		//fehler???
+		this.memory.write(PCL,value & 0xFF);
 		this.memory.setPcHigh(value >> 8);
 	}
 
@@ -208,7 +207,7 @@ public class Instructions {
 	public void decFSZ(int value) {
 		int temp = this.memory.readRAM(value  & 0x7F) -1;
 		if(temp == -1) temp = 0xFF;
-		if(temp == 0) this.memory.writeRAM(PCL, this.memory.readRAM(PCL)+1); 
+		if(temp == 0) this.memory.write(PCL, this.memory.readRAM(PCL)+1); 
 		if((value & 0x80) > 0) {
 			this.memory.writeRAM(value & 0x7F,temp & 0xFF);
 		}else {
@@ -232,7 +231,7 @@ public class Instructions {
 
 	public void incFSZ(int value) {
 		int temp = (this.memory.readRAM(value  & 0x7F) +1) & 0xFF;
-		if(temp == 0) this.memory.writeRAM(PCL, this.memory.readRAM(PCL)+1); 
+		if(temp == 0) this.memory.write(PCL, this.memory.readRAM(PCL)+1); 
 		if((value & 0x80) > 0) {
 			this.memory.writeRAM(value & 0x7F,temp & 0xFF);
 		}else {
@@ -350,7 +349,7 @@ public class Instructions {
 		int bitPosition = value >> 7;
 		int address = value & 0x7F;
 		if(0 == (this.memory.readRAM(address) & (0x1 << bitPosition))){
-			this.memory.writeRAM(PCL, this.memory.readRAM(PCL)+1);
+			this.memory.write(PCL, this.memory.readRAM(PCL)+1);
 		}
 	}
 
@@ -358,7 +357,7 @@ public class Instructions {
 		int bitPosition = value >> 7;
 		int address = value & 0x7F;
 		if(0 < (this.memory.readRAM(address) & (0x1 << bitPosition))){
-			this.memory.writeRAM(PCL, this.memory.readRAM(PCL)+1);
+			this.memory.write(PCL, this.memory.readRAM(PCL)+1);
 		}
 	}
 	/**

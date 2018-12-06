@@ -36,7 +36,7 @@ public class Microcontroller {
 	public void nextOperation() {
 		System.out.println(this.memory.readRAM(2));
 		int instruction = memory.readProgramMemory((this.memory.getPcHigh() << 8) + this.memory.readRAM(2));
-		this.memory.writeRAM(2, this.memory.readRAM(2) + 1); // index 2 is PC
+		this.memory.write(2, this.memory.readRAM(2) + 1); // index 2 is PC
 
 		switch (instruction & 0x3000) {
 		case 0x0000: // 00 Instructions

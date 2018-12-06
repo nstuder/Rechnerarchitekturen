@@ -102,7 +102,10 @@ public class Memory {
 	 * @param value
 	 */
 	public void writeRAM(int address,int value) {
-		
+		if(address == 2) {
+			//System.out.println("PCL ..." +  address);
+			this.pcHigh = this.readRAM(0x0A);
+		}
 		if(address == 0) {
 			this.mainMemory[this.mainMemory[4]] = value;
 		}else {

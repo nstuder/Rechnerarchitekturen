@@ -182,6 +182,7 @@ public class GuiController {
 	@FXML
 	void setSpeed(ActionEvent event) {
 		this.runTime.setDelay(new Duration(this.runSpeed.getValue()));
+		System.out.println(this.runSpeed.getValue());
 	}
 
 	@FXML
