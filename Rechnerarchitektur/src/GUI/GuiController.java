@@ -25,7 +25,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
- * @author NiklasStuder
+ * @author FlorianGrunwald, NiklasStuder
  *
  */
 public class GuiController {
@@ -154,7 +154,7 @@ public class GuiController {
 
 		this.runTime = new Timeline(new KeyFrame(Duration.millis(5), e -> step(null)));
 		this.runTime.setCycleCount(Animation.INDEFINITE);
-
+		
 		// enable Buttons
 		this.step.setDisable(false);
 		this.start.setDisable(false);

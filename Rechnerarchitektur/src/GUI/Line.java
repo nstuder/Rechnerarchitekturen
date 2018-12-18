@@ -1,7 +1,9 @@
 package GUI;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty; 
 import javafx.beans.property.SimpleStringProperty;
-
+/*
+ * @author FlorianGrunwald, NiklasStuder
+ */
 public class Line {
 	private SimpleIntegerProperty lineNumber;
 	private SimpleStringProperty lineData;

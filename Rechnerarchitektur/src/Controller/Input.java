@@ -1,16 +1,15 @@
 package Controller;
-import java.io.BufferedReader; 
+import java.io.BufferedReader;  
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import GUI.Line;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 /**
- * Class for read the Instructions of the File and decode it for the Memory
+ * Class for read the Instructions of the File
  * @author FlorianGrunwald, NiklasStuder
  *	
  */
@@ -39,37 +38,43 @@ public class Input {
 	 * extract the data from the File and write to the Program Memory
 	 */
 	public void getData(){
-		
 		String currentLine = " ";
 		String subString = " ";
 		String subStringCode = " ";
-		int count = 0;
-		int count1 = 0;
+		int codeLineCount = 0;
+		int lineCount = 0;
 		try {
+			//read Line from File
 			currentLine = this.input.readLine();
-			
+			// while Line exists
 			while(currentLine != null){
-				//this.fileString.add(currentLine);
-				
+				//get substring of the the 1 and 2 Character
 				subString = currentLine.substring(0, 1);
+				//check if Binary Line 
 				if(subString.compareTo("0") == 0) {
 					subStringCode = currentLine.substring(5, 9);
-					this.memory.writeProgrammMemory(Integer.decode(("0x"+subStringCode)),count);
-					this.fileString.add(new Line(count1,currentLine,count));
-					count++;
-				}else {		
-					this.fileString.add(new Line(count1,"        " + currentLine,-1));
+					//write in Program Memory
+					this.memory.writeProgrammMemory(Integer.decode(("0x"+subStringCode)),codeLineCount);
+					// add Code to Line List with true Code Line 
+					this.fileString.add(new Line(lineCount,currentLine,codeLineCount));
+					codeLineCount++;
+				}else {
+					// add Code to Line List with false Code Line 
+					this.fileString.add(new Line(lineCount,"        " + currentLine,-1));
 				}
+				//get next Line
 				currentLine = this.input.readLine();
-				count1++;
+				lineCount++;
 			}
 			input.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// catch IO Exception
 			e.printStackTrace();
 		}
 	}
-	
+	/*
+	 * @return List of the File Lines
+	 */
 	public ObservableList<Line> getFileString() {
 		return this.fileString;
 	}
