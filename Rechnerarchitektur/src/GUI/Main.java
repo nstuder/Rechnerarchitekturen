@@ -1,4 +1,6 @@
 package GUI;
+import java.io.IOException;
+
 import javafx.application.Application;  
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -27,9 +29,16 @@ public class Main extends Application {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		try {
+			Runtime.getRuntime().exec("C:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroRd32.exe C:\\Users\\NiklasStuder\\Desktop\\SimTest_OG\\PIC16F8x.pdf");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args) {
 		launch(args);
+
 	}
 }

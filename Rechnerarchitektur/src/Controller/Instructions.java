@@ -79,8 +79,7 @@ public class Instructions {
 		this.addLW(value);
 	}
 	
-	/**
-	 * copy a literal to the W Register
+	/*	 * copy a literal to the W Register
 	 * @param value
 	 */
 	public void movLW(int value){
@@ -93,7 +92,6 @@ public class Instructions {
 	 */
 	public void xorLW(int value){
 		int temp = this.memory.readWREG() ^ value;
-		
 		if(temp == 0) { 
 			this.memory.writeRAM(STATUS,this.memory.readRAM(STATUS) | 0x04);
 		}else{
