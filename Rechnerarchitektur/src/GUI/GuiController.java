@@ -206,7 +206,7 @@ public class GuiController {
 
 	@FXML
 	void quit(ActionEvent event) {
-
+		System.exit(0);
 	}
 
 	@FXML
