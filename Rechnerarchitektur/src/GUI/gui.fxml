@@ -30,7 +30,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="About">
           <items>
-            <MenuItem mnemonicParsing="false" text="About Us" />
+            <MenuItem mnemonicParsing="false" onAction="#openDoc" text="About Us" />
           </items>
         </Menu>
       </menus>

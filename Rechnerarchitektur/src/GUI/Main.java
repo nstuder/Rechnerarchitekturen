@@ -28,16 +28,16 @@ public class Main extends Application {
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
-		}
+		} 
 		try {
-			Runtime.getRuntime().exec("C:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroRd32.exe C:\\Users\\NiklasStuder\\Desktop\\SimTest_OG\\PIC16F8x.pdf");
+			Runtime.getRuntime().exec("C:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroRd32.exe C:\\Users\\NiklasStuder\\git\\Rechnerarchitektur\\Rechnerarchitektur\\src\\doc\\Dokumentation.pdf");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) { 
 		launch(args);
 
 	}

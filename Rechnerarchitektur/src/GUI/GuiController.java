@@ -1,5 +1,6 @@
 package GUI;
-import java.io.File; 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -129,7 +130,8 @@ public class GuiController {
 	public ObservableList<Register> regData = FXCollections.observableArrayList(new Register("TMR0", 0),
 			new Register("PCL", 0), new Register("STATUS", 0), new Register("FSR", 0), new Register("PORTA", 0),
 			new Register("PORTB", 0), new Register("PCLATH", 0), new Register("INTCON", 0), new Register("INDF", 0),
-			new Register("OPTION", 0), new Register("TRISA", 0), new Register("TRISB", 0), new Register("EECON1", 0));
+			new Register("OPTION", 0), new Register("TRISA", 0), new Register("TRISB", 0), new Register("EECON1", 0),
+			new Register("wert1(0xC)", 0), new Register("wert2(0xD)", 0), new Register("ergeb(0xE)", 0));
 
 	// List for the Code Table
 	public ObservableList<Line> codeData = FXCollections.observableArrayList();
@@ -183,7 +185,9 @@ public class GuiController {
 
 	@FXML
 	void setSpeed(ActionEvent event) {
-		this.runTime.setDelay(new Duration(this.runSpeed.getValue()));
+		//this.runTime = new Timeline(new KeyFrame(Duration.millis((int) this.runSpeed.getValue()), e -> step(event)));
+		//this.runTime.setCycleCount(Animation.INDEFINITE);
+		//this.runTime.setDelay(new Duration(this.runSpeed.getValue()));
 		System.out.println(this.runSpeed.getValue());
 	}
 
@@ -217,6 +221,7 @@ public class GuiController {
 			if (codeData.get(i).getProgamCount() == this.PIC.getStatus(2))
 				codeTable.getSelectionModel().select(i);
 		}
+		this.runtime.setText("Runtime: ");
 	}
 
 	@FXML
@@ -300,12 +305,15 @@ public class GuiController {
 	synchronized void step(ActionEvent event) {
 		PIC.nextOperation();
 		this.wRegister.setText("0x" + Integer.toHexString(PIC.getStatus(0)));
+		regData.get(15).setNewValue(PIC.getStatus(14));// ERGEBNISS
+		regData.get(14).setNewValue(PIC.getStatus(13));// WERT2
+		regData.get(13).setNewValue(PIC.getStatus(12));// WERT1
 		regData.get(11).setNewValue(PIC.getStatus(0x86));// TRISB
 		regData.get(10).setNewValue(PIC.getStatus(0x85));// TRISA
 		regData.get(9).setNewValue(PIC.getStatus(0x81));// OPTION
-		regData.get(8).setNewValue(PIC.getStatus(12));
-		regData.get(7).setNewValue(PIC.getStatus(11));
-		regData.get(6).setNewValue(PIC.getStatus(10));
+		regData.get(8).setNewValue(PIC.getStatus(11));
+		regData.get(7).setNewValue(PIC.getStatus(10));
+		regData.get(6).setNewValue(PIC.getStatus(9));
 		regData.get(5).setNewValue(PIC.getStatus(6));
 		regData.get(4).setNewValue(PIC.getStatus(5));
 		regData.get(3).setNewValue(PIC.getStatus(4));
@@ -387,11 +395,22 @@ public class GuiController {
 			if (codeData.get(i).getProgamCount() == ((this.PIC.getPCHigh() << 8) + this.PIC.getStatus(2)))
 				codeTable.getSelectionModel().select(i);
 		}
+		this.runtime.setText("Runtime: " + String.format("%.1f", this.PIC.getCycles() * 0.4) + " msec");
 	}
 
 	@FXML
 	void stop(ActionEvent event) {
 		this.runTime.stop();
+	}
+	
+	@FXML
+	void openDoc(ActionEvent event) {
+		try {
+			Runtime.getRuntime().exec("C:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroRd32.exe C:\\Users\\NiklasStuder\\git\\Rechnerarchitektur\\Rechnerarchitektur\\src\\doc\\Dokumentation.pdf");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
