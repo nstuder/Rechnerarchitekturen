@@ -16,7 +16,7 @@ import javafx.collections.ObservableList;
 public class Input {
 
 	private BufferedReader input;
-	private File file;
+	//private File file;
 	private Memory memory;
 	private ObservableList<Line> fileString = FXCollections.observableArrayList();
 	/**
@@ -25,7 +25,7 @@ public class Input {
 	 * @param memory for the write to the Program memory
 	 */
 	Input(File file, Memory memory){
-		this.file = file;
+		//this.file = file;
 		this.memory = memory;
 		try {
 			this.input = new BufferedReader(new FileReader(file));

@@ -212,7 +212,25 @@ public class Microcontroller {
 				this.memory.writeRAM(11, this.memory.readRAM(11) & 0x7F);
 			}
 		}
-
+		/* For Program 5
+		System.out.print("10h: " + Integer.toHexString(this.memory.readRAM(0x10)) + ", ");
+		System.out.print("11h: " + Integer.toHexString(this.memory.readRAM(0x11)) + ", ");
+		System.out.print("12h: " + Integer.toHexString(this.memory.readRAM(0x12)) + ", ");
+		System.out.print("13h: " + Integer.toHexString(this.memory.readRAM(0x13)) + ", ");
+		System.out.print("14h: " + Integer.toHexString(this.memory.readRAM(0x14)) + ", ");
+		System.out.print("15h: " + Integer.toHexString(this.memory.readRAM(0x15)) + ", ");
+		System.out.print("16h: " + Integer.toHexString(this.memory.readRAM(0x16)) + ", ");
+		System.out.print("17h: " + Integer.toHexString(this.memory.readRAM(0x17)) + ", ");
+		System.out.print("18h: " + Integer.toHexString(this.memory.readRAM(0x18)) + ", ");
+		System.out.print("19h: " + Integer.toHexString(this.memory.readRAM(0x19)) + ", ");
+		System.out.print("1Ah: " + Integer.toHexString(this.memory.readRAM(0x1A)) + ", ");
+		System.out.print("1Bh: " + Integer.toHexString(this.memory.readRAM(0x1B)) + ", ");
+		System.out.print("1Ch: " + Integer.toHexString(this.memory.readRAM(0x1C)) + ", ");
+		System.out.print("1Dh: " + Integer.toHexString(this.memory.readRAM(0x1D)) + ", ");
+		System.out.print("1Eh: " + Integer.toHexString(this.memory.readRAM(0x1E)) + ", ");
+		System.out.println("1Fh: " + Integer.toHexString(this.memory.readRAM(0x1F)) + ", ");
+		//*/
+		
 		//System.out.println("Wert1: " + Integer.toHexString(this.memory.readRAM(0x0C)));
 		//System.out.println("Wert2: " + Integer.toHexString(this.memory.readRAM(0x0D)));
 		//System.out.println("Ergebnis: " + this.memory.readRAM(0x0E));
